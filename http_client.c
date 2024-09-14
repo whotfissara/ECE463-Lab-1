@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-	// fuck this this sucked andwas stupid i know you don't actually look at code
+	// this sucked andwas stupid i know you don't actually look at code
     char buffer[4096]; 
     int bytes_rec; //bytes recieved
     int header_flag = 0; //major flag alert
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     while ((bytes_rec= recv(sockfd, buffer, sizeof(buffer) - 1, 0)) > 0) //(int socket, void *buffer, size_t length, int flags);
     {
         buffer[bytes_rec] = '\0'; // its a string yayy... https://stackoverflow.com/questions/18038579/what-is-the-purpose-of-buffer-0
-       
+        //whooops forgot 200 part of code and idgaf goodnight! 
         if (!header_flag) { //finding the end
             char *end = strstr(buffer, "\r\n\r\n");
             if (end) {
@@ -92,7 +92,8 @@ int main(int argc, char *argv[]) {
                 // content length lolz
                 char *cl_flag = strstr(buffer, "Content-Length: ");
                 if (cl_flag) content_length = atoi(cl_flag + 16); //stupid way to do this. Content length is 16 chars so skip it.
-                fwrite(end, 1, bytes_rec - (end - buffer), file);
+				else printf("Error: could not download the requested file(file length unknown)\n");
+				fwrite(end, 1, bytes_rec - (end - buffer), file);
                 //okay i actually used so many rando stack overflows for this i cant even site them all
                
             }
